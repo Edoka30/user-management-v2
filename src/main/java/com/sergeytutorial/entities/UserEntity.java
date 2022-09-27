@@ -1,16 +1,19 @@
 package com.sergeytutorial.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class UserEntity implements Serializable{
+public class UserEntity implements Serializable {
 
 	private static final long serialVersionUID = -6671663543968681185L;
 
@@ -18,7 +21,7 @@ public class UserEntity implements Serializable{
 	@GeneratedValue
 	private long id;
 
-	@Column(nullable = false , unique = true)
+	@Column(nullable = false, unique = true)
 	private String userId;
 
 	@Column(nullable = false)
@@ -27,13 +30,15 @@ public class UserEntity implements Serializable{
 	@Column(nullable = false)
 	private String lastName;
 
-	@Column(nullable = false, unique = true )
+	@Column(nullable = false, unique = true)
 	private String email;
-	
+
 	private String password;
 	private String encryptedPassword;
 	private String emailVerificationToken;
 	boolean emailVerificationStatus = false;
+	@OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
+	private List<AddressEntity> addresses;
 
 	public UserEntity() {
 
@@ -125,5 +130,12 @@ public class UserEntity implements Serializable{
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
 
-	
+	public List<AddressEntity> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressEntity> addresses) {
+		this.addresses = addresses;
+	}
+
 }

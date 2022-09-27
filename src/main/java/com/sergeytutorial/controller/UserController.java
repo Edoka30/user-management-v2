@@ -1,12 +1,10 @@
 package com.sergeytutorial.controller;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaTypeEditor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,7 +82,8 @@ public class UserController {
 
 	}
 
-	@GetMapping
+	@GetMapping(produces = { org.springframework.http.MediaType.APPLICATION_ATOM_XML_VALUE,
+			org.springframework.http.MediaType.APPLICATION_JSON_VALUE })
 	public List<UserRest> pageableViewallUsers(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "1") int limit) {
 
