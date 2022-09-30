@@ -6,10 +6,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "users")
@@ -37,7 +39,8 @@ public class UserEntity implements Serializable {
 	private String encryptedPassword;
 	private String emailVerificationToken;
 	boolean emailVerificationStatus = false;
-	@OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "userEnitity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Transient
 	private List<AddressEntity> addresses;
 
 	public UserEntity() {

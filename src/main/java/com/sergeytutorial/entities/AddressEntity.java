@@ -29,8 +29,8 @@ private String postalCode;
 private String type;
 
 @ManyToOne
-@JoinColumn(name="users_id")
-private UserDto userDetails;
+@JoinColumn(name="user_id")
+private UserEntity userEnitity;
 
 public long getId() {
 	return id;
@@ -88,13 +88,14 @@ public void setType(String type) {
 	this.type = type;
 }
 
-public UserDto getUserDetails() {
-	return userDetails;
+public UserEntity getUserEnitity() {
+	return userEnitity;
 }
 
-public void setUserDetails(UserDto userDetails) {
-	this.userDetails = userDetails;
+public void setUserEnitity(UserEntity userEnitity) {
+	this.userEnitity = userEnitity;
 }
+
 
 
 
