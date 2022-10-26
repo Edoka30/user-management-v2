@@ -44,18 +44,18 @@ public class UserServiceImpl implements UserService {
 			addressDto.setAddressId(addressId);
 			userdto.getAddresses().set(i, addressDto);
 		}
-		UserEntity userEntity = new UserEntity();
+		// UserEntity userEntity = new UserEntity();
 		// BeanUtils.copyProperties(userdto, userEntity);
 		ModelMapper modelMapper = new ModelMapper();
-		userEntity = modelMapper.map(userdto, UserEntity.class);
+		UserEntity userEntity = modelMapper.map(userdto, UserEntity.class);
 
 		String userid = uuid.toString();
 		userEntity.setUserId(userid);
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userdto.getPassword()));
 		UserEntity storedUserDetails = userRepo.save(userEntity);
-		UserDto returnValue = new UserDto();
+		// UserDto returnValue = new UserDto();
 //.copyProperties(storedUserDetails, returnValue);
-		returnValue = modelMapper.map(storedUserDetails, UserDto.class);
+		UserDto returnValue = modelMapper.map(storedUserDetails, UserDto.class);
 		return returnValue;
 	}
 

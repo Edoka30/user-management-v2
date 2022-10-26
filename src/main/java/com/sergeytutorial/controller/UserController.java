@@ -1,9 +1,11 @@
 package com.sergeytutorial.controller;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sergeytutorial.dto.AddressDto;
 import com.sergeytutorial.dto.UserDto;
 import com.sergeytutorial.exception.UserServiceException;
 import com.sergeytutorial.request.UserDetailsRequest;
+import com.sergeytutorial.response.AddressRest;
 import com.sergeytutorial.response.ErrorMessages;
 import com.sergeytutorial.response.OperationStatusModel;
 import com.sergeytutorial.response.UserRest;
+import com.sergeytutorial.service.AddressService;
 import com.sergeytutorial.service.UserService;
 
 @RestController
@@ -31,6 +36,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	AddressService addressService;
 
 	@PostMapping
 	public UserRest createUser(@RequestBody UserDetailsRequest userDetails) throws Exception {
@@ -38,13 +46,13 @@ public class UserController {
 		if (userDetails.getFirstName() == null)
 			throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		UserRest returnValue = new UserRest();
-		//UserDto userDto = new UserDto();
-		//BeanUtils.copyProperties(userDetails, userDto);
+		// UserDto userDto = new UserDto();
+		// BeanUtils.copyProperties(userDetails, userDto);
 		ModelMapper modelMapper = new ModelMapper();
 		UserDto userDto = modelMapper.map(userDetails, UserDto.class);
 		UserDto createdUser = userService.createUser(userDto);
-	//	BeanUtils.copyProperties(createdUser, returnValue);
-		returnValue=modelMapper.map(createdUser, UserRest.class);
+		// BeanUtils.copyProperties(createdUser, returnValue);
+		returnValue = modelMapper.map(createdUser, UserRest.class);
 		return returnValue;
 	}
 
@@ -99,6 +107,21 @@ public class UserController {
 
 			returnValue.add(userModel);
 		}
+		return returnValue;
+	}
+
+	@GetMapping(path = "/{id}/addresses")
+	public List<AddressRest> getAddresses(@PathVariable String id) throws Exception {
+		List<AddressRest> returnValue = new ArrayList<>();
+
+		List<AddressDto> addressDTO = addressService.getAddresses(id);
+
+		if (addressDTO != null && !addressDTO.isEmpty()) {
+			Type listType = new TypeToken<List<AddressRest>>() {
+			}.getType();
+			returnValue = new ModelMapper().map(addressDTO, listType);
+		}
+		//BeanUtils.copyProperties(addressDTO, returnValue);
 		return returnValue;
 	}
 

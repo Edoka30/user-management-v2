@@ -1,4 +1,4 @@
-package com.sergeytutorial.entities;
+                                       package com.sergeytutorial.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,7 +16,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "users")
 public class UserEntity implements Serializable {
-
+                                                                                   
 	private static final long serialVersionUID = -6671663543968681185L;
 
 	@Id
@@ -39,8 +39,8 @@ public class UserEntity implements Serializable {
 	private String encryptedPassword;
 	private String emailVerificationToken;
 	boolean emailVerificationStatus = false;
-	@OneToMany(mappedBy = "userEnitity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Transient
+	@OneToMany(mappedBy = "userDetails", cascade = CascadeType.ALL)
+	//@Transient
 	private List<AddressEntity> addresses;
 
 	public UserEntity() {
